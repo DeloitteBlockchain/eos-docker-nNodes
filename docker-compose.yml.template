@@ -1,0 +1,43 @@
+version: "3"
+
+networks:
+  eos_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.15.0.0/16
+
+services:
+  eos-keosd:
+    container_name: eos-keosd
+    image: eosio/eos:v1.4.4
+    command: keosd --wallet-dir /opt/eosio/wallet --http-server-address=0.0.0.0:8899 --http-alias=localhost:8899 --http-alias=keosd:8899
+    hostname: keosd
+    volumes:
+      - ./eos/wallet:/opt/eosio/wallet
+    ports:
+      - "8899:8899"
+    networks:
+      eos_net:
+        ipv4_address: '172.15.0.99'
+
+  eos-main-node:
+    container_name: eos-main-node
+    image: eosio/eos-dev:v1.4.4 
+    command: nodeos --enable-stale-production --producer-name eosio --max-transaction-time=250 --plugin eosio::http_plugin --plugin eosio::chain_api_plugin --plugin eosio::net_api_plugin --plugin eosio::history_plugin --plugin eosio::history_api_plugin --filter-on=* --http-server-address 0.0.0.0:8888 --http-validate-host false --config-dir /mnt/dev/config --data-dir /mnt/dev/data --contracts-console
+    ports:
+      - "8888:8888"
+      - "9876:9876"
+    volumes:
+      - ./eos/nodeos_main/data:/mnt/dev/data
+      - ./eos/nodeos_main/config:/mnt/dev/config
+      - ./eos/contracts/hello:/contracts/hello
+      - ./eos/keystore:/mnt/dev/keystore
+    networks:
+      eos_net:
+        ipv4_address: '172.15.0.10'
+    depends_on:
+      - eos-keosd
+
+  # DYNAMICALLY GENERATED
