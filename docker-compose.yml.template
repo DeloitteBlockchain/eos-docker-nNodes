@@ -11,7 +11,7 @@ networks:
 services:
   eos-keosd:
     container_name: eos-keosd
-    image: eosio/eos:v1.4.4
+    image: EOS_IMAGE_VERSION
     command: keosd --wallet-dir /opt/eosio/wallet --http-server-address=0.0.0.0:8899 --http-alias=localhost:8899 --http-alias=keosd:8899
     hostname: keosd
     volumes:
@@ -24,7 +24,7 @@ services:
 
   eos-main-node:
     container_name: eos-main-node
-    image: eosio/eos-dev:v1.4.4 
+    image: EOS_DEV_IMAGE_VERSION
     command: nodeos --enable-stale-production --producer-name eosio --max-transaction-time=250 --plugin eosio::http_plugin --plugin eosio::chain_api_plugin --plugin eosio::net_api_plugin --plugin eosio::history_plugin --plugin eosio::history_api_plugin --filter-on=* --http-server-address 0.0.0.0:8888 --http-validate-host false --config-dir /mnt/dev/config --data-dir /mnt/dev/data --contracts-console
     ports:
       - "8888:8888"

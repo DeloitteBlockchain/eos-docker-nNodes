@@ -48,6 +48,12 @@ function eosiocpp() {
 function resetDockerFile() {
   rm -f docker-compose.yml
   cp docker-compose.yml.template docker-compose.yml
+
+  # Replacing the image with the correct one
+  sed -i.bak s/EOS_IMAGE_VERSION/eosio\\/eos:$EOS_IMAGE_VERSION/g docker-compose.yml
+  sed -i.bak s/EOS_DEV_IMAGE_VERSION/eosio\\/eos-dev:$EOS_IMAGE_VERSION/g docker-compose.yml
+
+  rm -f docker-compose.yml.bak
 }
 
 function generateDockerNode() {
@@ -68,9 +74,7 @@ function generateDockerNode() {
       - ./eos/nodeos_'$1'/config:/mnt/dev/config
     networks:
       eos_net:
-        ipv4_address: "172.15.0.'$IP_ADDRESS_COUNT'"
-    environment:
-      - NODE_'$1'_KEY' >> docker-compose.yml
+        ipv4_address: "172.15.0.'$IP_ADDRESS_COUNT'"' >> docker-compose.yml
 
     HTTP_PORT=$((HTTP_PORT+1))
     P2P_PORT=$((P2P_PORT+1))
