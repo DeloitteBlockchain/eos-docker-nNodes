@@ -188,6 +188,8 @@ function stopRemoveEOS() {
   rm -rf eos/keystore
   rm -f eos_nodes.txt
   rm -f docker-compose.yml
+  rm -f /eos/contracts/hello/hello.abi
+  rm -f /eos/contracts/hello/hello.w*
 }
 
 function startEOS() {
