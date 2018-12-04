@@ -45,6 +45,13 @@ For a full list, please see the environment variables which are set in the `dock
 
 **Server:** Set variables based on above files.
 
+## Testing
+If the Hello contract was deployed during the configuration, an easy way to test if it works is to execute the following command:
+
+```
+docker exec -it eos-main-node cleos --wallet-url http://172.15.0.99:8899 push action hello hi '["Rodrigo"]' -p hello@active
+```
+
 ## Clean up
 In order to clean up everything, just run the `./up.sh` and select the option 3.
 
