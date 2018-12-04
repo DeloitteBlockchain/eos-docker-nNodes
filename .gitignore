@@ -1,0 +1,12 @@
+*.log
+*.env
+
+docker-compose.yml
+eos_nodes.txt
+
+# EOS Specific
+/eos/nodeos*
+/eos/keystore
+/eos/wallet
+/eos/contracts/hello/hello.abi
+/eos/contracts/hello/hello.w*
